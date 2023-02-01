@@ -4,8 +4,10 @@
 
 This is a PowerShell script that automates the process of performing KAPE triages and memory captures across multiple remote machines at once. The script establishes a remote PowerShell session with the remote machines, and if the PowerShell version on the remote machine is compatible (version 4 or higher), copies a compressed archive of KAPE to the remote machine, extracts it, and starts the capture process. This is all accomplished as a WinRM session background job for each machine. The script then monitors the job status of the captures across all machines, and retrieves the captured data when complete. Data is compressed on the endpoint prior to retrieval.
 
+By collecting data from multiple machines, the threat hunter can have a larger pool of data to analyze, leading to a better understanding of the attack surface and the nature of the security incidents.
+
 **Example Use Case:**
-- Capturing baseline forensic data of critical servers or suspicious endpoints at the beginning of an engagement.
+- Capturing baseline forensic data of several critical servers or suspicious endpoints at the beginning of an engagement.
 
 **Prerequisites**
 - Windows operating system with PowerShell 4.0 or later installed
