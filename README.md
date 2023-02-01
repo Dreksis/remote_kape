@@ -8,6 +8,9 @@ This is a PowerShell script that automates the process of performing KAPE triage
 - Capturing baseline forensic data of critical servers or suspicious endpoints at the beginning of an engagement.
 
 **Prerequisites**
+- Windows operating system with PowerShell 4.0 or later installed
+- Access to a file named computers.txt containing a list of computer names
+- A valid set of credentials for establishing remote PowerShell sessions
 - The computers you want to perform memory captures on must be in the same domain as the machine you are running the script on.
 - The user account running the script must have administrator privileges on the remote machines.
 - The computers.txt file containing a list of the computer names must be located in the deployment_package folder.
