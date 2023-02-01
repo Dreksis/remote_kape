@@ -22,7 +22,7 @@ This is a PowerShell script that automates the process of performing KAPE triage
 - Enter your credentials when prompted.
 - The script will establish remote PowerShell sessions with the remote machines, copy KAPE to the remote machines, start the captures, and retrieve the captured data when the captures are complete.
 
-**Note**
+**Notes**
 - Memory captures are performed via magnet ram capture. Upgrading to WinPMEM in the future
 - The script writes the output of each capture to the remotecapturelog.txt file located in the deployment_package folder for troubleshooting.
 - The script removes the KAPE package and the captured data from the remote machines after the data has been retrieved.
