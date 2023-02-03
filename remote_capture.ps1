@@ -20,9 +20,9 @@ ForEach ($computer in $iterative) {
     $powershellversioncheck = Invoke-Command -Session $session -ScriptBlock {$PSVersionTable.PSVersion}
     if ($powershellversioncheck.major -ge 4){
     Write-Host ("WinRM tunnel opened and powershell version compatible. Copying Kape to endpoint")
-    Copy-Item -Path "$source_dir\kape" -Destination ('C:\windows\Temp\') -tosession $session -Recurse -Force}
+    Copy-Item -Path "$source_dir\kape.zip" -Destination ('C:\windows\Temp\') -tosession $session -Recurse -Force}
     Invoke-Command -Session $session -ScriptBlock {
-    if ((Test-Path -Path 'C:\Windows\Temp\kape') -and (Get-CimInstance -classname win32_logicaldisk -filter "deviceid='C:'" | ?{$_.FreeSpace -ge 9000MB})){
+    if ((Test-Path -Path 'C:\Windows\Temp\kape.zip') -and (Get-CimInstance -classname win32_logicaldisk -filter "deviceid='C:'" | ?{$_.FreeSpace -ge 9000MB})){
     $hostname = hostname
     Expand-Archive -literalpath C:\windows\temp\kape.zip -DestinationPath C:\windows\temp\kape\ -Force
     start-process -filepath 'C:\windows\temp\kape\kape.exe' -ArgumentList ( "--tsource C: --tdest C:\Windows\Temp\kape\$hostname\ --target !SANS_Triage,Antivirus,CloudStorage_Metadata,CloudStorage_OneDriveExplorer,CombinedLogs,EvidenceOfExecution,Exchange,FileSystem,RegistryHives,RemoteAdmin,ServerTriage,WebServers --zip $hostname --msource C:\windows\temp\KAPE\Modules\bin --mdest C:\windows\temp\KAPE\$hostname\memory.raw --module MagnetForensics_RAMCapture ") -Wait}
@@ -40,6 +40,7 @@ Copy-Item -FromSession $session -literalpath C:\windows\Temp\kape\$trimmed_name\
 Copy-Item -FromSession $session -literalpath C:\windows\Temp\kape\$trimmed_name\*.txt -Destination $source_dir -Recurse -Force
 Invoke-Command -Session $session -ScriptBlock {
 remove-item -recurse -force 'C:\Windows\Temp\kape'
+remove-item -recurse -force 'C:\Windows\Temp\kape.zip'
 } -AsJob -JobName "cleanup"
 Get-job -Name $trimmed_name | Receive-Job *>&1 >> $source_dir\remotecapturelog.txt}
 }
