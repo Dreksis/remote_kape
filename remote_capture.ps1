@@ -1,4 +1,6 @@
-﻿Remove-PSSession *
+﻿#Previous jobs and sessions must be cleared for proper tracking of captures.
+
+Remove-PSSession *
 Remove-Job -name *
 enable-psremoting -skipnetworkprofilecheck -force
 $cred = get-credential
@@ -23,7 +25,7 @@ ForEach ($computer in $iterative) {
     if ((Test-Path -Path 'C:\Windows\Temp\kape') -and (Get-CimInstance -classname win32_logicaldisk -filter "deviceid='C:'" | ?{$_.FreeSpace -ge 9000MB})){
     $hostname = hostname
     Expand-Archive -literalpath C:\windows\temp\kape.zip -DestinationPath C:\windows\temp\kape\ -Force
-    start-process -filepath 'C:\windows\temp\kape\kape.exe' -ArgumentList ( "--tsource C: --tdest C:\Windows\Temp\kape\$hostname\ --target !SANS_Triage,Antivirus,CloudStorage_Metadata,CloudStorage_OneDriveExplorer,CombinedLogs,EvidenceOfExecution,Exchange,FileSystem,RegistryHives,RemoteAdmin,ServerTriage,WebServers --zip $hostname --msource C:\windows\temp\KAPE\Modules\bin --mdest C:\windows\temp\KAPE\ --module MagnetForensics_RAMCapture ") -Wait}
+    start-process -filepath 'C:\windows\temp\kape\kape.exe' -ArgumentList ( "--tsource C: --tdest C:\Windows\Temp\kape\$hostname\ --target !SANS_Triage,Antivirus,CloudStorage_Metadata,CloudStorage_OneDriveExplorer,CombinedLogs,EvidenceOfExecution,Exchange,FileSystem,RegistryHives,RemoteAdmin,ServerTriage,WebServers --zip $hostname --msource C:\windows\temp\KAPE\Modules\bin --mdest C:\windows\temp\KAPE\$hostname\memory.raw --module MagnetForensics_RAMCapture ") -Wait}
     } -AsJob -JobName "$computer" #comment this line just after the }, to remain inside sessions and recieve output of script for troubleshooting/testing. This will significantly slow the deployment process.
    Write-Host ("Memory capture started $computer. Looping to the next machine")
 }
