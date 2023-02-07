@@ -21,12 +21,13 @@ By collecting data from multiple machines, the threat hunter can have a larger p
 ## Mandatory Group Policy prerequisites:
 - Computer Configuration -> Administrative Templates -> Windows Components -> Windows Remote Management (WinRM)/WinRM Service:
     - Allow Remote Server Management through WinRM: Enabled
-        IPV4 filter: *
-        IPV6 filter: *
+        - IPV4 filter: *
+        - IPV6 filter: *
 
 - Set the following setting Computer Configuration -> Administrative Templates -> Windows Components -> Windows Remote Management (WinRM)/WinRM Client to the following:
-    - Trusted Hosts: <Client1 IP you want to remote to>
-                     <Client2 IP you want to remote to>
+    - Trusted Hosts: 
+        - Client1 IP you want to remote to
+        - Client2 IP you want to remote to
 
 - Set the following setting Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Windows Firewall with Advanced Security to the following:
     - Inbound Rule: Windows Remote Management (HTTP-In): Allow
