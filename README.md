@@ -18,7 +18,7 @@ By collecting data from multiple machines, the threat hunter can have a larger p
 - The computers.txt file containing a list of the computer names must be located in the deployment_package folder.
 - The KAPE package must be located in a folder named deployment_package. This can be changed by editing $source_dir and $computers_file variables
 
-## Mandatory Group Policy pre-requisits:
+## Mandatory Group Policy prerequisites:
 - Computer Configuration -> Administrative Templates -> Windows Components -> Windows Remote Management (WinRM)/WinRM Service:
     - Allow Remote Server Management through WinRM: Enabled
         IPV4 filter: *
