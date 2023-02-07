@@ -16,11 +16,27 @@ By collecting data from multiple machines, the threat hunter can have a larger p
 - The computers you want to perform memory captures on must be in the same domain as the machine you are running the script on.
 - The user account running the script must have administrator privileges on the remote machines.
 - The computers.txt file containing a list of the computer names must be located in the deployment_package folder.
-- The KAPE package must be located in the deployment_package folder.
+- The KAPE package must be located in a folder named deployment_package. This can be changed by editing $source_dir and $computers_file variables
+
+## Mandatory Group Policy pre-requisits:
+- Computer Configuration -> Administrative Templates -> Windows Components -> Windows Remote Management (WinRM)/WinRM Service:
+    - Allow Remote Server Management through WinRM: Enabled
+        IPV4 filter: *
+        IPV6 filter: *
+
+- Set the following setting Computer Configuration -> Administrative Templates -> Windows Components -> Windows Remote Management (WinRM)/WinRM Client to the following:
+    - Trusted Hosts: <Client1 IP you want to remote to>
+                     <Client2 IP you want to remote to>
+
+- Set the following setting Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Windows Firewall with Advanced Security to the following:
+    - Inbound Rule: Windows Remote Management (HTTP-In): Allow
+
+- Set the following setting Computer Configuration -> Policies -> Windows Settings -> Security Settings -> System Services to the following:
+    - Windows Remote Management (WS-Management): Startup Mode: Automatic
 
 ## Usage
 - Open PowerShell as an administrator on the machine you want to run the script on.
-- Run the script.
+- Run the script. You may need to change execution policy to run, or can make this setting in GPO.
 - Enter your credentials when prompted.
 - The script will establish remote PowerShell sessions with the remote machines, copy KAPE to the remote machines, start the captures, and retrieve the captured data when the captures are complete.
 
@@ -28,3 +44,4 @@ By collecting data from multiple machines, the threat hunter can have a larger p
 - Memory captures are performed via magnet ram capture. Upgrading to WinPMEM in the future
 - The script writes the output of each capture to the remotecapturelog.txt file located in the deployment_package folder for troubleshooting.
 - The script removes the KAPE package and the captured data from the remote machines after the data has been retrieved.
+- If you made changes in group policy for WinRM, give machines time to recieve GP update. GP refresh is 90 mins by default. You may also update them manually using gpupdate /force on the endpoints.

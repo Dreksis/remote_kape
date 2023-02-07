@@ -9,9 +9,11 @@ $computers_file = "C:\Users\$user\Documents\deployment_package\computers.txt"
 $iterative = Get-Content $computers_file
 set-variable -name 'source_dir' -value ("C:\Users\$user\Documents\deployment_package\") -Scope global -PassThru | Out-Null
 
-<#Populate target machines in coomputers.txt using the follwing command:
+<#Populate target machines in computers.txt using the follwing command:
 get-adcomputer -Filter * -properties dnshostname, enabled, lastlogondate, ipv4address, operatingsystem, operatingsystemservicepack | out-gridview
-Review this listing, select desired endpoints, and review/gain approval from customer prior to execution#>
+#Review this listing, select desired endpoints, and review/gain approval from customer prior to execution#>
+#Use ONLY HOSTNAMES for computers.txt. There should be no empty space or characters in the listing and the hostnames should be layered each on their own line.
+#test using just localhost in computers.txt first
 
 ForEach ($computer in $iterative) {
     #$session = New-PSSession -computername $computer -Credential $cred #-ConfigurationName microsoft.powershell32 
