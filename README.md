@@ -1,4 +1,4 @@
-# Mass Acquisition of KAPE Triages
+# Bulk Acquisition of KAPE Triages
 
 ## Introduction
 
